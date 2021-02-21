@@ -1,9 +1,8 @@
 GET https://bad-api-assignment.reaktor.com/v2/products/facemasks
 
 ###
-
+# 807843
 GET https://bad-api-assignment.reaktor.com/v2/products/gloves
-
 ###
 
 GET https://bad-api-assignment.reaktor.com/v2/products/beanies
@@ -14,3 +13,5 @@ GET https://bad-api-assignment.reaktor.com/v2/availability/umpante
 GET https://bad-api-assignment.reaktor.com/v2/availability/juuran
 ###
 GET http://localhost:3001/api/facemasks
+###
+GET http://localhost:3001/
