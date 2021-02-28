@@ -1,11 +1,10 @@
 const { LEGACY_BASE_URL } = require("../config");
 const axios = require("axios");
 const redis = require("redis");
-const { promisify } = require("util");
 const redis_port = 6379;
 
 const client = redis.createClient(redis_port);
-client.on("error", (err) => {
+client.on("error", err => {
   console.error(err);
 });
 
@@ -17,7 +16,7 @@ client.on("error", (err) => {
  * @param {String} api products/availability
  * @param {String} end manufacturer/category
  */
-async function getData(api, end) {
+async function getData(api, end, headers = {}) {
   return new Promise((resolve, reject) => {
     client.get(end, async (err, data) => {
       if (err) {
@@ -31,15 +30,19 @@ async function getData(api, end) {
       } else {
         console.log("cache miss");
         const fetched_data = await axios.get(
-          `${LEGACY_BASE_URL}/${api}/${end}`
+          `${LEGACY_BASE_URL}/${api}/${end}`,
+          headers,
         );
 
-        client.setex(end, 5 * 60, JSON.stringify(fetched_data.data));
-        resolve(fetched_data);
+        if (!fetched_data.data.length) {
+          client.setex(end, 5 * 60, JSON.stringify(fetched_data.data));
+        }
+        resolve(fetched_data.data);
       }
     });
   });
 }
+
 /**
  * Fetches the products from a given category
  * @param {String} category category to fetch products from
@@ -55,7 +58,9 @@ function getProducts(category) {
  */
 function getAvailability(manufacturer) {
   console.log("fetching availability for: ", manufacturer);
-  return getData("availability", manufacturer);
+  return getData("availability", manufacturer, {
+    "Content-Type": "application/xml; charset=utf-8",
+  });
 }
 
 module.exports = {

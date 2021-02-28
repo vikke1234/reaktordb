@@ -14,4 +14,4 @@ GET https://bad-api-assignment.reaktor.com/v2/availability/juuran
 ###
 GET http://localhost:3001/api/facemasks
 ###
-GET http://localhost:3001/
+GET http://localhost:3001/api/availability/okkau
