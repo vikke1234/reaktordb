@@ -20,6 +20,9 @@ app.use("/api", facemasks);
 app.use("/api", gloves);
 app.use("/api", avail);
 
+app.get("/favico.ico", (req, res) => {
+  res.sendStatus(404);
+})
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Listening on: ${PORT}`);
