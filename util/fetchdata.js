@@ -2,8 +2,9 @@ const { LEGACY_BASE_URL } = require("../config");
 const axios = require("axios");
 const redis = require("redis");
 const redis_port = 6379;
+const redis_url = process.env.REDIS_TLS_URL
 
-const client = redis.createClient(redis_port);
+const client = redis.createClient(`${redis_url}:${redis_url}`);
 client.on("error", err => {
   console.error(err);
 });
