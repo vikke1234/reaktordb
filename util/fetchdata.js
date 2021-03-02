@@ -18,6 +18,7 @@ client.on("error", err => {
  * @param {String} end manufacturer/category
  */
 async function getData(api, end, headers = {}) {
+  console.log(`fetching from ${LEGACY_BASE_URL}`);
   return new Promise((resolve, reject) => {
     client.get(end, async (err, data) => {
       if (err) {
